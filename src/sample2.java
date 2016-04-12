@@ -16,9 +16,6 @@ import java.text.DateFormatSymbols;
 import java.util.Calendar;
 import java.util.Date;
 
-import org.jdatepicker.*;
-import org.jdatepicker.impl.*;
-import org.jdatepicker.util.*;
 
 
 
