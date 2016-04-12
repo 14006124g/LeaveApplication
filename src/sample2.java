@@ -32,6 +32,7 @@ public class sample2 extends JFrame {
     private DefaultTableModel modelLeave = new DefaultTableModel();
     private DefaultTableModel modelTemp = new DefaultTableModel();
     public  JComboBox comboBoxStaff= new JComboBox();
+    public  JComboBox comboBoxSuper= new JComboBox();
     //public  JComboBox comboBoxSuper= new JComboBox();
     //public  JComboBox comboBoxApprover = new JComboBox();
     //public  JComboBox comboBoxOwner = new JComboBox();
@@ -46,6 +47,8 @@ public class sample2 extends JFrame {
         cardPanel = new JPanel();       
         buttonPanel = new JPanel();
         cardPanel.setLayout(cardLayout);
+        
+        
         panel1 = new JPanel();
         panel2 = new JPanel();
         
@@ -58,6 +61,7 @@ public class sample2 extends JFrame {
         panel2.setLocation(0, 0);
         panel2.setSize(880, 340);
         panel2.setAlignmentX(0);
+        
         
         //buttonPanel.setLayout(null);
         //buttonPanel.setLocation(700, 340);
@@ -135,7 +139,8 @@ public class sample2 extends JFrame {
         textId.setBounds(120, 190, 100, 25);
         textFname.setBounds(120, 220, 100, 25);
         textDep.setBounds(120, 250, 100, 25);
-        textRight.setBounds(120, 280, 100, 25);
+        //textRight.setBounds(120, 280, 100, 25);
+        comboBoxSuper.setBounds(120, 280, 100, 25);
         textJointDate.setBounds(120, 310, 100, 25);
         
         btnAdd.setBounds(20, 340, 100, 25);
@@ -143,8 +148,8 @@ public class sample2 extends JFrame {
         btnDelete.setBounds(250, 340, 100, 25);
         //btnDemoData.setBounds(740, 200, 100, 25);
         //btnCleanList.setBounds(740, 225, 100, 25);
-        btnDemoData.setBounds(700, 190, 100, 25);
-        btnCleanList.setBounds(700, 215, 100, 25);
+        btnDemoData.setBounds(780, 190, 100, 25);
+        btnCleanList.setBounds(780, 215, 100, 25);
         btnStaff.setBounds(600, 0, 120, 25);
         btnLeave.setBounds(740, 0, 120, 25);
         
@@ -156,7 +161,7 @@ public class sample2 extends JFrame {
         panel1.add(textId);
         panel1.add(textFname);
         panel1.add(textDep);
-        panel1.add(textRight);
+        //panel1.add(textRight);
         panel1.add(textJointDate);
         panel1.add(btnAdd);
         panel1.add(btnDelete);
@@ -173,6 +178,7 @@ public class sample2 extends JFrame {
         panel1.add(topPanel);
         panel1.add(labStatus);
         
+        panel1.add(comboBoxSuper);
         
         
         
@@ -190,12 +196,13 @@ public class sample2 extends JFrame {
         labHeader2.setHorizontalAlignment(0);
         topPanel2.add(labHeader2);
 
-        Object[] columns2 = {"Leave ID", "Staff", "Date From", "Date To", "Status", "Supervisor", "Approved By"};
+        Object[] columns2 = {"Leave ID", "Staff", "Date From", "Date To", "Status", "Supervisor", "Last Updated By", "Notice Owner", "Notice Superviser"};
         //DefaultTableModel modelLeave = new DefaultTableModel();
         modelLeave.setColumnIdentifiers(columns2);
         tableLeave.setModel(modelLeave);
         tableLeave.setRowSelectionAllowed(true);
         tableLeave.setColumnSelectionAllowed(false);
+        
         JScrollPane paneLeave = new JScrollPane(tableLeave);
 
         paneLeave.setBounds(0, 25, 880, 160);
@@ -227,7 +234,18 @@ public class sample2 extends JFrame {
         JLabel labSupervisor = new JLabel("Supervisor:");
         JLabel labApprovedBy = new JLabel("Approved By:");
         JLabel labSystemStatus = new JLabel("System Status: Start");
-        JLabel labDateFromYY = new JLabel("(YYYY/MM/DD)");
+        JLabel labDateFromYY = new JLabel("(YYYYMMDD)");
+        
+        
+        JButton btnCheckNotice = new JButton("Notice"); 
+        btnCheckNotice.setBounds(250, 190, 80, 25);
+        JTextArea textNotice = new JTextArea("");
+        //textNotice.setBounds(350, 190, 250, 50);
+        JScrollPane areaScrollPane = new JScrollPane(textNotice); 
+        areaScrollPane.setBounds(350, 190, 250, 50);
+        textNotice.setEditable(false);
+
+        
         labLeaveId.setBounds(20, 190, 100, 25);
         labStaffID2.setBounds(20, 220, 100, 25);
         labDateFrom.setBounds(20, 250, 100, 25);
@@ -260,9 +278,9 @@ public class sample2 extends JFrame {
         btnEndorse.enable(false);
         btnDecline.setBounds(480, 340, 100, 25);
         btnDecline.enable(false);
-        btnDemoDataLeave.setBounds(700, 190, 100, 25);
+        btnDemoDataLeave.setBounds(780, 190, 100, 25);
         btnDemoDataLeave.enable(false);
-        btnCleanListLeave.setBounds(700, 215, 100, 25);
+        btnCleanListLeave.setBounds(780, 215, 100, 25);
         btnCleanListLeave.enable(false);
         //comboBoxSuper.enable(false);
         //comboBoxApprover.enable(false);
@@ -294,7 +312,7 @@ public class sample2 extends JFrame {
         panel2.add(labDateFrom);
         panel2.add(labDateTo);
         panel2.add(labStatus2);
-        panel2.add(labSystemStatus);
+        //panel2.add(labSystemStatus);
         panel2.add(labSupervisor);
         panel2.add(labApprovedBy);
         panel2.add(labDateFromYY);
@@ -308,6 +326,9 @@ public class sample2 extends JFrame {
         panel2.add(labRole);
         panel2.add(btnEndorse);
         panel2.add(btnDecline);
+        panel2.add(btnCheckNotice);
+        panel2.add(areaScrollPane);
+        
         
         comboBoxStatus.removeAllItems();
         comboBoxStatus.addItem("Pending");
@@ -325,7 +346,7 @@ public class sample2 extends JFrame {
        
         // create an array of objects to set the row data
         Object[] row = new Object[5];
-        Object[] rowLeave = new Object[7];
+        Object[] rowLeave = new Object[9];
         
         
         // button add row
@@ -337,7 +358,8 @@ public class sample2 extends JFrame {
                 row[0] = textId.getText();
                 row[1] = textFname.getText();
                 row[2] = textDep.getText();
-                row[3] = textRight.getText();
+                //row[3] = textRight.getText();
+                row[3] = comboBoxSuper.getSelectedItem().toString();
                 row[4] = textJointDate.getText();
                 
                 // add row to the modelStaff
@@ -377,7 +399,8 @@ public class sample2 extends JFrame {
             textId.setText(modelStaff.getValueAt(i, 0).toString());
             textFname.setText(modelStaff.getValueAt(i, 1).toString());
             textDep.setText(modelStaff.getValueAt(i, 2).toString());
-            textRight.setText(modelStaff.getValueAt(i, 3).toString());
+            //textRight.setText(modelStaff.getValueAt(i, 3).toString());
+            comboBoxSuper.setSelectedItem(modelStaff.getValueAt(i, 3).toString());
             textJointDate.setText(modelStaff.getValueAt(i, 4).toString());
         }
         });
@@ -397,7 +420,7 @@ public class sample2 extends JFrame {
                    modelStaff.setValueAt(textId.getText(), i, 0);
                    modelStaff.setValueAt(textFname.getText(), i, 1);
                    modelStaff.setValueAt(textDep.getText(), i, 2);
-                   modelStaff.setValueAt(textRight.getText(), i, 3);
+                   modelStaff.setValueAt(comboBoxSuper.getSelectedItem().toString(), i, 3);
                    modelStaff.setValueAt(textJointDate.getText(), i, 4);
                    labStatus.setText("System Status:Update success(Staff ID:" + textId.getText() +")");
                 }
@@ -413,7 +436,12 @@ public class sample2 extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
              
+            	while(modelStaff.getRowCount() > 0)
+            	{
+            		modelStaff.removeRow(0);
+            	}
             	
+            	String[] dataRow0 = {"0", "Administrator", "Admin", "0", "0"};
                 String[] dataRow1 = {"1", "Peter Chan", "Accounting", "Paul Wong", "7"};
                 String[] dataRow2 = {"2", "Chris Wong", "Accounting", "Peter Chan", "7"};
                 String[] dataRow3 = {"3", "Doris Chow", "Accounting", "Paul Wong", "10"};
@@ -425,6 +453,7 @@ public class sample2 extends JFrame {
                 String[] dataRow9 = {"9", "Max Pang", "Accounting", "Kelvin Wong", "18"};
                 String[] dataRow10 = {"10", "Paul Wong", "Accounting", "Director", "18"};
 
+                modelStaff.addRow(dataRow0);
                 modelStaff.addRow(dataRow1);
                 modelStaff.addRow(dataRow2);
                 modelStaff.addRow(dataRow3);
@@ -435,6 +464,13 @@ public class sample2 extends JFrame {
                 modelStaff.addRow(dataRow8);
                 modelStaff.addRow(dataRow9);
                 modelStaff.addRow(dataRow10);
+                
+
+                comboBoxSuper.removeAllItems();
+                for(int j = 0; j < modelStaff.getRowCount(); j++)
+                	{
+                	comboBoxSuper.addItem(modelStaff.getValueAt(j, 1).toString());
+                	}
 
 
                 labStatus.setText("System Status:Success import data.");
@@ -449,16 +485,17 @@ public class sample2 extends JFrame {
             public void actionPerformed(ActionEvent e) {
              
             	//{"Leave ID", "Staff ID", "Date From", "Date To", "Status", "Supervisor", "Approved By"};
-                String[] dataRow1 = {"1", "Peter Chan", "20160314", "20160315", "Pending", "Paul Wong", ""};
-                String[] dataRow2 = {"2", "Chris Wong", "20160424", "20160427", "Pending", "Peter Chan", ""};
-                String[] dataRow3 = {"3", "Eric Poon", "20160504", "20160507", "Pending", "Doris Chow", ""};
-                String[] dataRow4 = {"4", "Eric Poon", "20160214", "20160218", "Endorse", "Doris Chow", ""};
-                String[] dataRow5 = {"5", "Eric Poon", "20160611", "20160611", "Endorse", "Doris Chow", ""};
-                String[] dataRow6 = {"6", "Kelvin Wong", "20160722", "20160723", "Pending", "Paul Wong", ""};
-                String[] dataRow7 = {"7", "Kelvin Wong", "20160301", "20160303", "Pending", "Paul Wong", ""};
-                String[] dataRow8 = {"8", "Kelvin Wong", "20160914", "20160917", "Endorse", "Paul Wong", ""};
-                String[] dataRow9 = {"9", "Max Pang", "20160112", "20160113", "Endorse", "Kelvin Wong", ""};
-                String[] dataRow10 = {"10", "Max Pang", "20160815", "20160815", "Decline", "Kelvin Wong", ""};
+            	
+                String[] dataRow1 = {"1", "Peter Chan", "20160314", "20160315", "Pending", "Paul Wong", "", "", ""};
+                String[] dataRow2 = {"2", "Chris Wong", "20160424", "20160427", "Pending", "Peter Chan", "", "", ""};
+                String[] dataRow3 = {"3", "Eric Poon", "20160504", "20160507", "Pending", "Doris Chow", "", "", ""};
+                String[] dataRow4 = {"4", "Eric Poon", "20160214", "20160218", "Pending", "Doris Chow", "", "", ""};
+                String[] dataRow5 = {"5", "Eric Poon", "20160611", "20160611", "Pending", "Doris Chow", "", "", ""};
+                String[] dataRow6 = {"6", "Kelvin Wong", "20160722", "20160723", "Pending", "Paul Wong", "", "", ""};
+                String[] dataRow7 = {"7", "Kelvin Wong", "20160301", "20160303", "Pending", "Paul Wong", "", "", ""};
+                String[] dataRow8 = {"8", "Kelvin Wong", "20160914", "20160917", "Endorse", "Paul Wong", "", "", ""};
+                String[] dataRow9 = {"9", "Max Pang", "20160112", "20160113", "Endorse", "Kelvin Wong", "", "", ""};
+                String[] dataRow10 = {"10", "Max Pang", "20160815", "20160815", "Decline", "Kelvin Wong", "", "", ""};
 
                 modelLeave.addRow(dataRow1);
                 modelLeave.addRow(dataRow2);
@@ -553,6 +590,17 @@ public class sample2 extends JFrame {
                     btnDecline.setEnabled(false);
                     btnDemoDataLeave.setEnabled(false);
                     btnCleanListLeave.setEnabled(false);
+                    comboBoxStatus.setEnabled(false);
+            	}
+            	else
+            	{
+            		btnEditLeave.setEnabled(true);
+                    btnDeleteLeave.setEnabled(true);
+                    btnEndorse.setEnabled(true);
+                    btnDecline.setEnabled(true);
+                    btnDemoDataLeave.setEnabled(true);
+                    btnCleanListLeave.setEnabled(true);
+                    comboBoxStatus.setEnabled(true);
             	}
             	}
             }
@@ -565,6 +613,11 @@ public class sample2 extends JFrame {
         public void mouseClicked(MouseEvent e){
             // i = the index of the selected row
             int i = tableLeave.getSelectedRow();
+            
+            String strTest1 = "";
+            String strTest2 = "";
+            strTest1 = comboBoxStaff.getSelectedItem().toString();
+            strTest2 = tableLeave.getValueAt(i, 1).toString();
            
         	
             textLeaveID.setText(tableLeave.getValueAt(i, 0).toString());
@@ -594,37 +647,45 @@ public class sample2 extends JFrame {
                 btnCleanListLeave.setEnabled(true);
                 
                 
+                
                 //comboBoxSuper.setEnabled(true);
                 //comboBoxApprover.setEnabled(true);
                 //comboBoxOwner.setEnabled(true);
                 comboBoxStatus.setEnabled(true);
             }
-            else if (comboBoxStaff.getSelectedItem().toString() == tableLeave.getValueAt(i, 1).toString())
+            //else if (comboBoxStaff.getSelectedItem().toString() == tableLeave.getValueAt(i, 1).toString())
+            //else if (strTest1 == strTest2)
+            else if (strTest1.equals(strTest2))
             {
-                textDateFrom.enable(true);
-                textDateTo.enable(true);
-                btnEditLeave.setEnabled(true);
-                btnDeleteLeave.setEnabled(true);
+            	if (tableLeave.getValueAt(i, 4).toString() == "Pending")
+                {
+            		textDateFrom.enable(true);
+            		textDateTo.enable(true);
+                    btnEditLeave.setEnabled(true);
+                    btnDeleteLeave.setEnabled(true);
+                    
+                    textLeaveID.enable(false);
+                    textStaffID2.enable(false);
+                    textSupervisor.enable(false);
+                    textApprovedBy.enable(false);
+                    //comboBoxSuper.setEnabled(false);
+                    //comboBoxApprover.setEnabled(false);
+                    //comboBoxOwner.setEnabled(false);
+                    btnEditLeave.setEnabled(true);
+                    btnDeleteLeave.setEnabled(false);
+                    btnEndorse.setEnabled(false);
+                    btnDecline.setEnabled(false);
+                    btnDemoDataLeave.setEnabled(false);
+                    btnCleanListLeave.setEnabled(false);
+                    comboBoxStatus.setEnabled(false);
+                }
                 
-                textLeaveID.enable(false);
-                textStaffID2.enable(false);
-                textSupervisor.enable(false);
-                textApprovedBy.enable(false);
-                //comboBoxSuper.setEnabled(false);
-                //comboBoxApprover.setEnabled(false);
-                //comboBoxOwner.setEnabled(false);
-                btnEditLeave.setEnabled(false);
-                btnDeleteLeave.setEnabled(false);
-                btnEndorse.setEnabled(false);
-                btnDecline.setEnabled(false);
-                btnDemoDataLeave.setEnabled(false);
-                btnCleanListLeave.setEnabled(false);
             }
-            else if (comboBoxStaff.getSelectedItem().toString() == tableLeave.getValueAt(i, 5).toString())
+            
+            else if (comboBoxStaff.getSelectedItem().toString().equals(tableLeave.getValueAt(i, 5).toString()))
             {
             	textStatus.enable(true);
             	btnEditLeave.setEnabled(true);
-                comboBoxStatus.setEnabled(true);
                 btnEndorse.setEnabled(true);
                 btnDecline.setEnabled(true);
                 
@@ -707,12 +768,15 @@ public class sample2 extends JFrame {
                     	{
                     		modelLeave.setValueAt("Success", i, 4);
                         	modelLeave.setValueAt("", i, 5);
-                        	modelLeave.setValueAt(comboBoxStaff.getSelectedItem().toString(), i, 6);
+                        	modelLeave.setValueAt("1", i, 7);
+                        	modelLeave.setValueAt("Director", i, 6);
                     	}
                     	else
                     	{
                     		modelLeave.setValueAt("Endorse", i, 4);
                     		modelLeave.setValueAt(strSuper, i, 5);
+                    		modelLeave.setValueAt("1", i, 7);
+                    		modelLeave.setValueAt("1", i, 8);
                     		modelLeave.setValueAt(comboBoxStaff.getSelectedItem().toString(), i, 6);
                     	}
                     }
@@ -748,6 +812,7 @@ public class sample2 extends JFrame {
                     if(p >= 0) 
                     {  
                     	modelLeave.setValueAt("Decline", i, 4);
+                    	modelLeave.setValueAt("1", i, 7);
                     	modelLeave.setValueAt(comboBoxStaff.getSelectedItem().toString(), i, 6);
                     }
                     
@@ -804,6 +869,8 @@ public class sample2 extends JFrame {
             		rowLeave[4] = comboBoxStatus.getSelectedItem().toString().trim();
             		rowLeave[5] = textSupervisor.getText().toString().trim();
             		rowLeave[6] = textApprovedBy.getText().toString().trim();
+            		rowLeave[7] = ""; 
+            		rowLeave[8] = ""; 
             		btnCreateLeave.setText("New");
                 
             		modelLeave.addRow(rowLeave);
@@ -835,6 +902,62 @@ public class sample2 extends JFrame {
                 }
             }
         });
+        
+        
+     // button Check notice
+        btnCheckNotice.addActionListener(new ActionListener(){
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	String str_Text = "";
+            	textNotice.setText(str_Text);
+            	String strUser = "";
+            	String strOwner = "";
+            	
+            	for (int k =0; k < modelLeave.getRowCount(); k++)
+            	{	if(modelLeave.getValueAt(k, 7).toString() == "1" && modelLeave.getValueAt(k, 1).toString() == comboBoxStaff.getSelectedItem().toString())
+					{	
+            			if(modelLeave.getValueAt(k, 4).toString() == "Endorse")
+            			{
+            				str_Text = str_Text + "Leave ID: " + modelLeave.getValueAt(k, 0).toString() + " Endorsed by " + modelLeave.getValueAt(k, 6).toString();
+            			}
+            			else if(modelLeave.getValueAt(k, 4).toString() == "Decline")
+            			{
+            				str_Text = str_Text + "Leave ID: " + modelLeave.getValueAt(k, 0).toString() + " Declined by " + modelLeave.getValueAt(k, 6).toString();
+            			}
+            			else if(modelLeave.getValueAt(k, 4).toString() == "Success")
+            			{
+            				str_Text = str_Text + "Leave ID: " + modelLeave.getValueAt(k, 0).toString() + " Endorsed by Director";
+            			}
+            			modelLeave.setValueAt("", k, 7);
+                    	str_Text = str_Text + "\n";
+					}
+            	
+            	strUser=comboBoxStaff.getSelectedItem().toString().trim();
+            	strOwner=modelLeave.getValueAt(k, 5).toString().trim();
+            		if(modelLeave.getValueAt(k, 8).toString() == "1")
+            		{	
+            			if (strUser.equals(strOwner) == true && modelLeave.getValueAt(k, 4).toString() != "Decline" && modelLeave.getValueAt(k, 4).toString() != "Success")
+            			{
+            			if(modelLeave.getValueAt(k, 4).toString() == "Pending")
+            			{
+            				str_Text = str_Text + "Leave ID: " + modelLeave.getValueAt(k, 0).toString() + " Applied by " + modelLeave.getValueAt(k, 1).toString();
+            			}
+            			else if(modelLeave.getValueAt(k, 4).toString() == "Endorse")
+            			{
+            				str_Text = str_Text + "Leave ID: " + modelLeave.getValueAt(k, 0).toString() + " Endorsed by " + modelLeave.getValueAt(k, 6).toString();
+            			}
+            			modelLeave.setValueAt("", k, 8);
+            			str_Text = str_Text + "\n";
+            			}
+            		}
+            	}
+            	
+            	textNotice.setText(str_Text);
+            	
+            }
+        });
+        
         
         // Leave button update row
         btnEditLeave.addActionListener(new ActionListener(){
