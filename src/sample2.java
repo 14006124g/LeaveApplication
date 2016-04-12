@@ -37,6 +37,18 @@ public class sample2 extends JFrame {
     private JLabel labRole = new JLabel("Role: ");
     private static TableRowSorter<TableModel> sorter;
     
+    public static void main(String[] args) {
+        EventQueue.invokeLater(new Runnable() {
+
+            @Override
+            public void run() {
+            	sample2 frame = new sample2();
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                frame.setVisible(true);
+            }
+        });
+    }
+    
     public sample2() {
         setTitle("Leave Application System");
         setSize(900, 450);
@@ -1003,15 +1015,5 @@ public class sample2 extends JFrame {
     }
 
     
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
 
-            @Override
-            public void run() {
-            	sample2 frame = new sample2();
-                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                frame.setVisible(true);
-            }
-        });
-    }
 }
